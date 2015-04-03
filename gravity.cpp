@@ -40,6 +40,10 @@ void Gravity::initialize(HWND hwnd)
     if (!marioTexture.initialize(graphics,MARIO_IMAGE))
         throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing mario texture"));
 
+	// paddle texture
+	if (!paddleTexture.initialize(graphics, PADDLE_IMAGE))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing paddle texture"));
+
     // backdrop
     if (!backdrop.initialize(graphics,0,0,0,&backdropTexture))
         throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing background texture"));
@@ -51,9 +55,13 @@ void Gravity::initialize(HWND hwnd)
     ball.setY(GAME_HEIGHT/2 - ballNS::HEIGHT);
     ball.setVelocity(VECTOR2(ballNS::SPEED,-ballNS::SPEED)); // VECTOR2(X, Y)
 
+	// paddle
+	if (!paddle.initialize(this, paddleNS::WIDTH, paddleNS::HEIGHT, 0, &paddleTexture))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing paddle"));
+
     // mario
 	if (!mario.initialize(this, marioNS::WIDTH, marioNS::HEIGHT, 0, &marioTexture))
-        throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing ball"));
+        throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing Mario"));
 
     return;
 }
@@ -67,13 +75,7 @@ void Gravity::update()
 	State state = STANDING;
 	static Direction direction = RIGHT; //Static because direction persists
 
-	if (input->isKeyDown(DOWN_KEY) || input->getGamepadDPadDown(0))
-	{
-		state = CROUCHING;
-		mario.setCurrentFrame(6);
-		mario.setFrames(6, 6);
-	}
-	else if (input->isKeyDown(LEFT_KEY) || input->getGamepadDPadLeft(0))
+	if (input->isKeyDown(LEFT_KEY) || input->getGamepadDPadLeft(0))
 	{
 		mario.setX(mario.getX() - marioNS::SPEED*frameTime);
 		state = WALKING;
@@ -87,13 +89,19 @@ void Gravity::update()
 		direction = RIGHT;
 		mario.setFrames(1, 3);
 	}
+	else if (input->isKeyDown(DOWN_KEY) || input->getGamepadDPadDown(0))
+	{
+		state = CROUCHING;
+		mario.setCurrentFrame(6);
+		mario.setFrames(6, 6);
+	}
 	else
 	{
 		mario.setCurrentFrame(0);
 		mario.setFrames(0,0);
 	}
 	
-	if (input->isKeyDown(UP_KEY) || input->getGamepadDPadDown(0))
+	if (input->isKeyDown(UP_KEY) || input->getGamepadA(0))
 	{
 		mario.setCurrentFrame(5);
 		mario.setFrames(5,5);
@@ -101,6 +109,7 @@ void Gravity::update()
 	}
 
     ball.update(frameTime);
+	paddle.update(frameTime);
     mario.update(frameTime, state, direction);
 }
 
@@ -129,6 +138,7 @@ void Gravity::render()
 
     backdrop.draw();                        // add the backdrop to the scene
     ball.draw();                            // add the ball to the scene
+	paddle.draw();
     mario.draw();                          // add the mario to the scene
     graphics->spriteEnd();                  // end drawing sprites
 }
@@ -139,7 +149,8 @@ void Gravity::render()
 //=============================================================================
 void Gravity::releaseAll()
 {
-    marioTexture.onLostDevice();           // mario texture
+    marioTexture.onLostDevice();            // mario texture
+	paddleTexture.onLostDevice();
     ballTexture.onLostDevice();             // ball texture
     backdropTexture.onLostDevice();         // backdrop texture
 
@@ -155,6 +166,7 @@ void Gravity::resetAll()
 {
     backdropTexture.onResetDevice();
     ballTexture.onResetDevice();
+	paddleTexture.onResetDevice();
     marioTexture.onResetDevice();
 
     Game::resetAll();

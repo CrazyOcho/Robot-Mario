@@ -17,7 +17,7 @@
 // graphic images
 const char BACKDROP_IMAGE[] = "pictures\\backdrop.png";
 const char BALL_IMAGE[]     = "pictures\\ball.png";
-//const char PADDLE_IMAGE[]   = "pictures\\paddle.png";
+const char PADDLE_IMAGE[]   = "pictures\\paddle.png";
 const char MARIO_IMAGE[]	= "pictures\\Robot_Mario_Resized3.bmp"; 
 
 // window

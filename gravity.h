@@ -13,6 +13,7 @@
 #include "image.h"
 #include "ball.h"
 #include "mario.h"
+#include "paddle.h"
 
 //=============================================================================
 // This class is the core of the game
@@ -23,9 +24,11 @@ private:
     // game items
     TextureManager backdropTexture; // backdrop texture
     TextureManager ballTexture;     // ball texture
-    TextureManager marioTexture;   // mario texture
+	TextureManager paddleTexture;   // paddle texture
+    TextureManager marioTexture;    // mario texture
     Ball    ball;                   // ball
-    Mario	mario;                 // mario
+	Paddle	paddle;					// paddle
+    Mario	mario;                  // mario
     Image   backdrop;               // backdrop image
 
 public:
