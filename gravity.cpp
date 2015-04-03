@@ -127,6 +127,13 @@ void Gravity::collisions()
     VECTOR2 cv;
     if(ball.collidesWith(mario, cv))
         ball.bounce(cv, mario);
+
+	if (ball.collidesWith(paddle, cv))
+		ball.bounce(cv, paddle);
+
+	VECTOR2 cs;
+	if (mario.collidesWith(paddle, cs))
+		mario.stop(paddleNS::X, paddleNS::Y, paddleNS::WIDTH, paddleNS::HEIGHT);
 }
 
 //=============================================================================
@@ -138,7 +145,7 @@ void Gravity::render()
 
     backdrop.draw();                        // add the backdrop to the scene
     ball.draw();                            // add the ball to the scene
-	paddle.draw();
+	paddle.draw();							// add the paddle to the scene
     mario.draw();                          // add the mario to the scene
     graphics->spriteEnd();                  // end drawing sprites
 }

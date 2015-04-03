@@ -14,8 +14,8 @@ namespace marioNS
 {
     const int WIDTH = 50;                  // image width
     const int HEIGHT = 100;                  // image height
-    const int X = GAME_WIDTH/2 - WIDTH;     // location on screen
-    const int Y = GAME_HEIGHT - HEIGHT;
+    const int X = GAME_WIDTH/4 - WIDTH;     // location on screen
+    const int Y = GAME_HEIGHT - HEIGHT * 2;
     const float SPEED = 300;                // pixels per second
     const float MASS = 1.0e6f;
 }
@@ -29,6 +29,12 @@ public:
 
     // inherited member functions
     void update(float frameTime, State state, Direction direction);
+
+	//In case mario collides with a wall
+	void Mario::stop(int wallX, int wallY, int wallLength, int wallHeight);
+private:
+	bool standingOnSurface_ = true;
+	bool floorCollision_ = true;
 };
 #endif
 
