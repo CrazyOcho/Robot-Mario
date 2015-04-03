@@ -26,6 +26,7 @@ class Image
     int     startFrame;     // first frame of current animation
     int     endFrame;       // end frame of current animation
     int     currentFrame;   // current frame of animation
+	int		frameLine;		// current line of frames
     float   frameDelay;     // how long between frames of animation
     float   animTimer;      // animation timer
     HRESULT hr;             // standard return type

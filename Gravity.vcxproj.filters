@@ -39,10 +39,10 @@
     <ClCompile Include="textureManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="paddle.cpp">
+    <ClCompile Include="gravity.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="gravity.cpp">
+    <ClCompile Include="mario.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -74,10 +74,10 @@
     <ClInclude Include="gameError.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="paddle.h">
+    <ClInclude Include="gravity.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="gravity.h">
+    <ClInclude Include="mario.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

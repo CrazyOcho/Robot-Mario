@@ -18,7 +18,7 @@
 const char BACKDROP_IMAGE[] = "pictures\\backdrop.png";
 const char BALL_IMAGE[]     = "pictures\\ball.png";
 //const char PADDLE_IMAGE[]   = "pictures\\paddle.png";
-const char PADDLE_IMAGE[]	= "pictures\\Robot_Mario_Resized3.bmp"; 
+const char MARIO_IMAGE[]	= "pictures\\Robot_Mario_Resized3.bmp"; 
 
 // window
 const char CLASS_NAME[] = "Gravity";
@@ -54,12 +54,14 @@ const UCHAR ENTER_KEY    = VK_RETURN;   // Enter key
 const UCHAR LEFT_KEY    = VK_LEFT;      // left arrow
 const UCHAR RIGHT_KEY   = VK_RIGHT;     // right arrow
 const UCHAR DOWN_KEY	= VK_DOWN;		// down arrow
+const UCHAR UP_KEY		= VK_UP;		// up arrow
 
 enum State
 {
 	STANDING,
 	WALKING,
-	CROUCHING
+	CROUCHING,
+	JUMPING
 };
 
 enum Direction

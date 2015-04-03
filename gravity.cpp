@@ -36,9 +36,9 @@ void Gravity::initialize(HWND hwnd)
     if (!ballTexture.initialize(graphics,BALL_IMAGE))
         throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing ball texture"));
 
-    // paddle texture
-    if (!paddleTexture.initialize(graphics,PADDLE_IMAGE))
-        throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing paddle texture"));
+    // mario texture
+    if (!marioTexture.initialize(graphics,MARIO_IMAGE))
+        throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing mario texture"));
 
     // backdrop
     if (!backdrop.initialize(graphics,0,0,0,&backdropTexture))
@@ -51,8 +51,8 @@ void Gravity::initialize(HWND hwnd)
     ball.setY(GAME_HEIGHT/2 - ballNS::HEIGHT);
     ball.setVelocity(VECTOR2(ballNS::SPEED,-ballNS::SPEED)); // VECTOR2(X, Y)
 
-    // paddle
-	if (!paddle.initialize(this, paddleNS::WIDTH, paddleNS::HEIGHT, 0, &paddleTexture))
+    // mario
+	if (!mario.initialize(this, marioNS::WIDTH, marioNS::HEIGHT, 0, &marioTexture))
         throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing ball"));
 
     return;
@@ -67,33 +67,41 @@ void Gravity::update()
 	State state = STANDING;
 	static Direction direction = RIGHT; //Static because direction persists
 
-	if (input->isKeyDown(LEFT_KEY) || input->getGamepadDPadLeft(0))
+	if (input->isKeyDown(DOWN_KEY) || input->getGamepadDPadDown(0))
 	{
-		paddle.setX(paddle.getX() - paddleNS::SPEED*frameTime);
+		state = CROUCHING;
+		mario.setCurrentFrame(6);
+		mario.setFrames(6, 6);
+	}
+	else if (input->isKeyDown(LEFT_KEY) || input->getGamepadDPadLeft(0))
+	{
+		mario.setX(mario.getX() - marioNS::SPEED*frameTime);
 		state = WALKING;
 		direction = LEFT;
-		paddle.setFrames(1, 3);
+		mario.setFrames(1, 3);
 	}
 	else if (input->isKeyDown(RIGHT_KEY) || input->getGamepadDPadRight(0))
 	{
-		paddle.setX(paddle.getX() + paddleNS::SPEED*frameTime);
+		mario.setX(mario.getX() + marioNS::SPEED*frameTime);
 		state = WALKING;
 		direction = RIGHT;
-		paddle.setFrames(1, 3);
-	}
-	else if (input->isKeyDown(DOWN_KEY) || input->getGamepadDPadDown(0))
-	{
-		state = CROUCHING;
-		paddle.setCurrentFrame(6);
-		paddle.setFrames(6, 6);
+		mario.setFrames(1, 3);
 	}
 	else
 	{
-		paddle.setCurrentFrame(0);
+		mario.setCurrentFrame(0);
+		mario.setFrames(0,0);
+	}
+	
+	if (input->isKeyDown(UP_KEY) || input->getGamepadDPadDown(0))
+	{
+		mario.setCurrentFrame(5);
+		mario.setFrames(5,5);
+		state = JUMPING;
 	}
 
     ball.update(frameTime);
-    paddle.update(frameTime, state, direction);
+    mario.update(frameTime, state, direction);
 }
 
 //=============================================================================
@@ -108,8 +116,8 @@ void Gravity::ai()
 void Gravity::collisions()
 {
     VECTOR2 cv;
-    if(ball.collidesWith(paddle, cv))
-        ball.bounce(cv, paddle);
+    if(ball.collidesWith(mario, cv))
+        ball.bounce(cv, mario);
 }
 
 //=============================================================================
@@ -121,7 +129,7 @@ void Gravity::render()
 
     backdrop.draw();                        // add the backdrop to the scene
     ball.draw();                            // add the ball to the scene
-    paddle.draw();                          // add the paddle to the scene
+    mario.draw();                          // add the mario to the scene
     graphics->spriteEnd();                  // end drawing sprites
 }
 
@@ -131,7 +139,7 @@ void Gravity::render()
 //=============================================================================
 void Gravity::releaseAll()
 {
-    paddleTexture.onLostDevice();           // paddle texture
+    marioTexture.onLostDevice();           // mario texture
     ballTexture.onLostDevice();             // ball texture
     backdropTexture.onLostDevice();         // backdrop texture
 
@@ -147,7 +155,7 @@ void Gravity::resetAll()
 {
     backdropTexture.onResetDevice();
     ballTexture.onResetDevice();
-    paddleTexture.onResetDevice();
+    marioTexture.onResetDevice();
 
     Game::resetAll();
     return;

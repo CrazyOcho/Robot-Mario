@@ -30,6 +30,7 @@ Image::Image()
     startFrame = 0;
     endFrame = 0;
     currentFrame = 0;
+	frameLine = 0;
     frameDelay = 1.0;               // 1 second per frame of animation
     animTimer = 0.0;
     visible = true;                 // the image is visible
@@ -139,8 +140,10 @@ void Image::update(float frameTime)
             currentFrame++;
             if (currentFrame < startFrame || currentFrame > endFrame)
             {
-                if(loop == true)            // if looping animation
-                    currentFrame = startFrame;
+				if (loop == true)            // if looping animation
+				{
+					currentFrame = startFrame;
+				}
                 else                        // not looping animation
                 {
                     currentFrame = endFrame;
@@ -170,35 +173,17 @@ void Image::setCurrentFrame(int c)
 //=============================================================================
 inline void Image::setRect() 
 {
-    //// configure spriteData.rect to draw currentFrame
-    //spriteData.rect.left = (currentFrame % cols) * spriteData.width;
-    //// right edge + 1
-    //spriteData.rect.right = spriteData.rect.left + spriteData.width;
-    //spriteData.rect.top = (currentFrame / cols) * spriteData.height;
-    //// bottom edge + 1
-    //spriteData.rect.bottom = spriteData.rect.top + spriteData.height;      
+	frameLine = 0;
+	if (currentFrame >= 11)
+	{
+		frameLine = currentFrame / 11;	// works for robot mario sprite sheet ////////////////////////////////////////////////////////////////////
+		currentFrame = currentFrame % 11;
+	}
 
-	if (spriteData.state == STANDING)
-	{
-		spriteData.rect.left = 0;
-		spriteData.rect.right = 50;
-		spriteData.rect.top = 0;
-		spriteData.rect.bottom = 100;
-	}
-	else
-	{
-		if (spriteData.direction == LEFT)
-		{
-			spriteData.flipHorizontal = true;
-		}
-		else
-		{
-			spriteData.flipHorizontal = false;
-		}
-		spriteData.rect.left = (currentFrame) * spriteData.width + (1 * currentFrame);
-		spriteData.rect.right = spriteData.rect.left + spriteData.width;
-		spriteData.rect.top = 0;
-		spriteData.rect.bottom = spriteData.rect.top + spriteData.height;
-	}
+	spriteData.rect.left = (currentFrame) * spriteData.width + (1 * currentFrame);
+	spriteData.rect.right = spriteData.rect.left + spriteData.width;
+	spriteData.rect.top = frameLine * spriteData.height;
+	spriteData.rect.bottom = spriteData.rect.top + spriteData.height;
 }
+
 

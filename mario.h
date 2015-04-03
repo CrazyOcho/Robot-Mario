@@ -3,14 +3,14 @@
 // Charles Kelly
 // Chapter 6 version 2.0
 
-#ifndef paddle_h             // Prevent multiple definitions if this 
-#define paddle_h             // file is included in more than one place
+#ifndef mario_h             // Prevent multiple definitions if this 
+#define mario_h             // file is included in more than one place
 #define WIN32_LEAN_AND_MEAN
 
 #include "entity.h"
 #include "constants.h"
 
-namespace paddleNS
+namespace marioNS
 {
     const int WIDTH = 50;                  // image width
     const int HEIGHT = 100;                  // image height
@@ -21,11 +21,11 @@ namespace paddleNS
 }
 
 // inherits from Entity class
-class Paddle : public Entity
+class Mario : public Entity
 {
 public:
     // constructor
-    Paddle();
+    Mario();
 
     // inherited member functions
     void update(float frameTime, State state, Direction direction);
