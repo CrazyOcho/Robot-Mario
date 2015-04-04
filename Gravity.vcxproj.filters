@@ -42,10 +42,10 @@
     <ClCompile Include="gravity.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="mario.cpp">
+    <ClCompile Include="paddle.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="paddle.cpp">
+    <ClCompile Include="mario.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
