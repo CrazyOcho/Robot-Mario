@@ -96,12 +96,19 @@ void Mario::update(float frameTime, State state, Direction direction)
 
 void Mario::stop(int wallX, int wallY, int wallLength, int wallHeight)
 {
-	if ((spriteData.x + spriteData.width > wallX && spriteData.x < wallX + wallLength) && spriteData.y + spriteData.height <= wallY + 20)
+	if ((spriteData.x + spriteData.width > wallX && spriteData.x < wallX + wallLength) && spriteData.y + spriteData.height <= wallY + 10)
 	{
 		standingOnSurface_ = true;
 		spriteData.y = wallY - spriteData.height;		 // position at the top of the wall
 		velocity.y = 0;									 // stop y acceleration
 		floorCollision_ = true;
+	}
+	else if ((spriteData.x + spriteData.width > wallX && spriteData.x < wallX + wallLength) && spriteData.y >= wallY - 10)
+	{
+		spriteData.y = wallY + wallHeight;
+		velocity.y = 1;
+		standingOnSurface_ = false;
+		floorCollision_ = false;
 	}
 	else if (spriteData.x + spriteData.width >= wallX && spriteData.x + spriteData.width < wallX + wallLength)
 	{
@@ -111,6 +118,5 @@ void Mario::stop(int wallX, int wallY, int wallLength, int wallHeight)
 	{
 		spriteData.x = wallX + wallLength;
 	}
-	//else if //below the surface
 }
 

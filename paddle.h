@@ -15,7 +15,7 @@ namespace paddleNS
 	const int WIDTH = 120;                  // image width
 	const int HEIGHT = 30;                  // image height
 	const int X = GAME_WIDTH - 2 * WIDTH;     // location on screen
-	const int Y = GAME_HEIGHT - HEIGHT * 2;
+	const int Y = GAME_HEIGHT - HEIGHT * 5;
 	const float SPEED = 200;                // pixels per second
 	const float MASS = 1.0e6f;
 }
